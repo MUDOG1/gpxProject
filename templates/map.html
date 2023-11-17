@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <title>GPX-Track Kartenansicht</title>
+</head>
+<body style="background-image: url('/static/optionmap.jpg'); background-size: cover; background-repeat: no-repeat;">
+
+    <header>
+        <div id="logo-container">
+            <!-- Platzhalter für das Logo -->
+            <img src="/static/option3.png" alt="Logo" id="logo">
+            <span id="logo-name">GPX-Track</span>
+        </div>
+        <div id="returnButton">
+            <!-- Zurück-Button - Hier sollte eine Funktion zum Zurückkehren implementiert werden -->
+            <button onclick="goBack()">Zurück</button>
+
+        </div>
+    </header>
+
+    <main>
+        <div id="map"></div>
+
+        <div id="flask-data">
+            <!-- Hier werden die Daten von Flask angezeigt -->
+            <h2>Benutzereingaben</h2>
+            <p id="user-input"><span id="user-input-data">Initialien: {{initials}}<br></br>KFZ-Kennzeichen: {{license_plate}}<br></br>Von: {{datefrom}}<br></br>Bis: {{dateto}}<br></br></span></p>
+            <h3>Track Informationen</h3>
+            <p id="flask-info"><span id="flask-info-data"></span></p>Gesamtlänge des Tracks: {{distance}}<br></br>Durchschnittliche Geschwindigkeit: {{avg_velocity}}<br></br>Durchschnittliche Höhe der Strecke: {{avg_height}}<br></br>
+        </div>
+
+        <script>
+            var map; // Hier definieren wir die Variable map
+        
+            // Funktion zur Initialisierung der Karte
+            function initializeMap() {
+                // Initialisieren der Karte in das "map"-Element
+                map = L.map('map').setView([51.505, -0.09], 13);
+        
+                // Füge eine Kartenquelle hinzu (z. B. OpenStreetMap)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+        
+                // Prüfen, ob Koordinaten vorhanden sind
+                {% if coordinates %}
+                    var coordinates = {{ coordinates | tojson | safe }};
+                    // Erstelle eine Polyline, um die Trackpunkte zu verbinden
+                    var polyline = L.polyline(coordinates, {color: 'blue'}).addTo(map);
+                    // Setze den sichtbaren Bereich der Karte auf den Bereich des Tracks
+                    map.fitBounds(polyline.getBounds());
+                {% else %}
+                    // Hole die aktuelle Position des Benutzers (Geolokalisierung)
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+        
+                            // Füge einen Marker für die aktuelle Position hinzu
+                            L.marker([lat, lon]).addTo(map)
+                                .bindPopup('Ihre aktuelle Position')
+                                .openPopup();
+        
+                            // Setze den sichtbaren Bereich der Karte auf die aktuelle Position des Benutzers
+                            map.setView([lat, lon], 13);
+                        });
+                    }
+                {% endif %} <!-- Hier wird der if-Block ordnungsgemäß geschlossen -->
+            }
+        
+            // Rufe die Funktion zur Initialisierung der Karte auf, wenn das Dokument geladen ist
+            window.addEventListener('load', initializeMap);
+
+            // Funktion zum Zurückkehren zur index.html
+            function goBack() {
+                window.location.href = "./index.html";
+            }
+        </script>
+    </main>
+
+    <footer>
+        <!-- Hier können zusätzliche Informationen im Footer platziert werden -->
+    </footer>
+
+</body>
+</html>

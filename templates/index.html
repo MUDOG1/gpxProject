@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>GPX-Track Hauptseite</title>
+</head>
+
+<body style="background-image: url('../images/optionindex.jpg'); background-size: cover; background-repeat: no-repeat;">
+
+    <header>
+        <div id="logo-container">
+            <img src="/static/option3.png" alt="Logo" id="logo">
+
+            <span id="logo-name">GPX-Track</span>
+        <!-- </div>            <img src="/static/pic1.png" alt="pic1"> -->
+    </header>
+
+    <main>
+        <form action="/query" method="POST">
+            <label for="initials">Initialen:</label>
+            <input type="text" id="initialsInput" name="initials" list="initialsList" required>
+            <datalist id="initialsList">
+                <option value="AA"> 
+                <option value="BL"> 
+                <option value="KA"> 
+                <option value="PL"> 
+                <option value="SH"> 
+                <option value="SL"> 
+            </datalist>
+
+            <label for="license-plate">Kennzeichen:</label>
+            <input type="text" id="license-plate" name="license-plate" oninput="updateLicensePlateOptions()" required>
+
+            <label for="date-from">Datum von:</label>
+            <input type="date" id="date-from" name="date-from">
+
+            <label for="date-to">Datum bis:</label>
+            <input type="date" id="date-to" name="date-to">
+
+            <input class="ownbutton" type="submit" name="such-button" value="Suchen" id="submit">
+            <button type="button" onclick="clearFields()">Eingabe löschen</button>
+        </form>
+    </main>
+
+    <footer>
+    </footer>
+
+    <script>
+        function clearFields() {
+            document.getElementById('initials').value = '';
+            document.getElementById('license-plate').value = '';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
+        }
+
+        function updateLicensePlateOptions() {
+            var initialsInput = document.getElementById("initialsInput");
+            var licensePlateInput = document.getElementById("license-plate");
+
+            // Mapping von Initialen zu License Plate-Optionen
+            var licensePlateOptions = {
+                "AA": ["WITAA000", "WITAA333", "WITAA777", "WITAA888", "WITAA999"],
+                "BL": ["WITBL444"],
+                "KA": ["WITKA222", "WITKA666"],
+                "PL": ["WITPL111"],
+                "SH": ["WITSH555"],
+                "SL": ["WITSL333"]
+            };
+
+            // Hole die ausgewählten Initialen
+            var selectedInitials = initialsInput.value.toUpperCase();
+
+            // Setze die License Plate-Optionen basierend auf den ausgewählten Initialen
+            licensePlateInput.setAttribute("list", selectedInitials + "-options");
+            var datalist = document.getElementById(selectedInitials + "-datalist");
+            if (!datalist) {
+                datalist = document.createElement("datalist");
+                datalist.id = selectedInitials + "-options";
+
+                // Füge Optionen hinzu
+                licensePlateOptions[selectedInitials].forEach(function (option) {
+                    var optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    datalist.appendChild(optionElement);
+                });
+
+                document.body.appendChild(datalist);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
