@@ -3,6 +3,7 @@ body {
     margin: 0;
     background-color: #3b3b3b;
     padding: 0;
+    transition: background-image 0.5s ease-in-out;
 }
 
 header {
@@ -67,12 +68,23 @@ button {
 }
 
 footer {
-    background-color: #133544;
-    padding: 10px;
-    text-align: right;
     position: fixed;
     width: 100%;
     bottom: 0;
+    background: linear-gradient(to right, #333333, #131313); /* Grauer Gradient */
+    color: #fff;
+    padding: 2px 0;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
 }
 
 #map {
@@ -91,4 +103,25 @@ footer {
     color: #ffffff;
     padding: 10px;
     cursor: pointer;
+}
+
+#wintermodus_starten {
+    background-color: rgb(19, 19, 19);
+    color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 1000px;
+}
+
+#wintermodus_beenden {
+    background-color: rgb(19, 19, 19);
+    color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
 }

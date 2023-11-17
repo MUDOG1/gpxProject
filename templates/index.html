@@ -13,9 +13,10 @@
     <header>
         <div id="logo-container">
             <img src="/static/option3.png" alt="Logo" id="logo">
-
             <span id="logo-name">GPX-Track</span>
-        <!-- </div>            <img src="/static/pic1.png" alt="pic1"> -->
+            <button id="wintermodus_starten">Wintermodus starten</button>
+            <button id="wintermodus_beenden">Wintermodus beenden</button>
+            <script src="/static/changebackground.js"></script>
     </header>
 
     <main>
@@ -46,9 +47,38 @@
     </main>
 
     <footer>
+        <div class="footer-content">
+            <p>&copy; 2023 wenn ich eine website hätte würde die hier stehen. All rights reserved.</p>
+        </div>
     </footer>
 
     <script>
+        const images = [
+        'url("/static/winter-hike1.jpg")',
+        'url("/static/winter-hike2.jpg")',
+        'url("/static/winter-hike3.jpg")',
+        'url("/static/winter-hike4.jpg")',
+        'url("/static/winter-hike5.jpg")',
+        'url("/static/winter-hike6.jpg")',
+        'url("/static/winter-hike7.jpg")',
+        'url("/static/winter-hike8.jpg")',
+        'url("/static/winter-hike9.jpg")',
+        'url("/static/winter-hike10.jpg")',
+        'url("/static/winter-hike11.jpg")',
+        'url("/static/winter-hike12.jpg")',
+        'url("/static/winter-hike13.jpg")',
+        ];
+
+        const imageContainer = document.getElementById('image-container');
+
+        images.forEach((imageSrc, index) => {
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.alt = `Winter Image ${index + 1}`;
+            img.loading = 'lazy'; // Hier wird Lazy Loading aktiviert
+            imageContainer.appendChild(img);
+        });
+
         function clearFields() {
             document.getElementById('initialsInput').value = '';
             document.getElementById('license-plate').value = '';
