@@ -33,9 +33,9 @@ def forward_to_map():
 
             # Get form data from request
             initials        = request.form['initials']
-            license_plate = request.form['license-plate']
-            datefrom    = request.form['date-from']
-            dateto      = request.form['date-to']
+            license_plate   = request.form['license-plate']
+            datefrom        = request.form['date-from']
+            dateto          = request.form['date-to']
         
             # Connect to database and execute query
             conn    = sqlite3.connect('gps_tracking.db')
