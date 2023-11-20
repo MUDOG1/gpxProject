@@ -1,10 +1,10 @@
 # app.py
-from flask import Flask, render_template, request
-from views import tracking_bp
+from flask import Flask, render_template, request, Blueprint
 from model import db
 import sqlite3
 
 app = Flask(__name__)
+tracking_bp = Blueprint('tracking', __name__)
 
 # Register the tracking blueprint
 app.register_blueprint(tracking_bp)
@@ -48,7 +48,6 @@ def forward_to_map():
             
 
             c.execute(query, (initials, license_plate, datefrom, dateto))
-            print(query)
             trackpoints = c.fetchall()
             conn.close()
 
